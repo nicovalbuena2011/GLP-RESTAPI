@@ -16,6 +16,10 @@ class Customers(models.Model):
     direccion = models.CharField('Direccion', max_length = 80)
     telefono = models.CharField('Telefono', max_length = 15)
     tipo_cliente = models.CharField(choices = client_choices, max_length = 20)
+    email = models.EmailField('email', max_length = 30,default = 'prueba@prueba.com')
+
+    class Meta:
+        verbose_name_plural = 'Lista de Clientes'
 
     def __str__(self):
-        return f'Nombre: {self.name} -- Direccion {self.direccion} -- Telefono {self.telefono} -- Tipo Cliente{self.tipo_cliente}'
+        return f'{self.name} - Direccion: {self.direccion} - Telefono: {self.telefono}'

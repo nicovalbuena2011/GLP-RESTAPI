@@ -19,6 +19,6 @@ class Empleado(models.Model):
     estado = models.CharField('Estado:',max_length=20, choices = estado_empleado)
 
     def __str__(self):
-        return f'Nombre: {self.name} {self.last_name}, Cedula: {self.cedula}, Telefono: {self.telefono}'
+        return f'{self.name} {self.last_name} - Cedula: {self.cedula}'
 
     

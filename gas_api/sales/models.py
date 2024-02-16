@@ -34,6 +34,9 @@ class Ventas(models.Model):
             self.created_at = timezone.now()
         self.modified = timezone.now()
         return super(Ventas, self).save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name_plural = 'Ventas'
 
     def __str__(self):
         return f'creado: {self.created_at} - editado: {self.modified} - valor: {self.total_venta_pesos}'
@@ -42,6 +45,9 @@ class Gastos(models.Model):
     created_at = models.DateField( editable = True )
     descripcion = models.TextField('Descripcion', max_length = 100)
     monto = models.DecimalField(max_digits=20, decimal_places=2)
+
+    class Meta:
+        verbose_name_plural = 'Egresos'
 
     def __str__(self):
         return f'{self.descripcion} -- {self.monto}'
