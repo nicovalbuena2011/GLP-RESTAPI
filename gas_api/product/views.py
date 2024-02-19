@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import mixins
+from rest_framework import mixins, authentication, permissions
 from rest_framework.generics import GenericAPIView
 # Create your views here.
 from .serializers import ProductSerializer
@@ -12,6 +12,8 @@ class RetrieveUpdateProduct(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     GenericAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ProductSerializer
     queryset = Producto.objects.all()
 

@@ -16,9 +16,9 @@ admin.site.register(models.Gastos, GastosAdmin)
 class VentasAdmin(admin.ModelAdmin):
     list_display = (
         'created_at',
-        'id_cliente',
-        'id_empleado',
-        'id_producto',
+        'cliente',
+        'empleado',
+        'producto',
         'total_venta_pesos',
         'total_venta_producto',
         'metodo_pago'
