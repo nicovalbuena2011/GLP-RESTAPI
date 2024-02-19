@@ -7,7 +7,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'tipo',
-        'nombre',
+        # 'nombre',
         'precio_unitario',
         'unidad_medida'
     )
