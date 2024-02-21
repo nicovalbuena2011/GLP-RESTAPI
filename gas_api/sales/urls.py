@@ -7,4 +7,5 @@ router.register(r'', views.VentasViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('filter-ventas', views.VentasPorPeriodoDeTiempoAPI.as_view(), name = 'ventas_filtradas')
 ]

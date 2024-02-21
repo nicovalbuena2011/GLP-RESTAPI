@@ -12,7 +12,7 @@ class Ventas(models.Model):
 
     PAGO_CHOICES = [
         ('1', 'Efectivo'),
-        ('2 Bancaria', 'Transferencia Bancaria'),
+        ('2', 'Transferencia Bancaria'),
         ('3', 'NEQUI'),
         ('4', 'Daviplata'),
         ('5', 'Otro'),
