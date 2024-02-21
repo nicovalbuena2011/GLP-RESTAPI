@@ -11,16 +11,16 @@ from product.models import Producto
 class Ventas(models.Model):
 
     PAGO_CHOICES = [
-        ('Efectivo', 'Efectivo'),
-        ('Transferencia Bancaria', 'Transferencia Bancaria'),
-        ('NEQUI', 'NEQUI'),
-        ('Daviplata', 'Daviplata'),
-        ('Otro', 'Otro'),
+        ('1', 'Efectivo'),
+        ('2 Bancaria', 'Transferencia Bancaria'),
+        ('3', 'NEQUI'),
+        ('4', 'Daviplata'),
+        ('5', 'Otro'),
     ]
 
     created_at = models.DateField( editable = False)
     modified = models.DateTimeField(editable = False)
-    total_venta_pesos = models.FloatField('total venta en pesos: ')
+    # total_venta_pesos = models.FloatField('total venta en pesos: ')
     cliente = models.ForeignKey(Customers, on_delete = models.CASCADE)
     empleado = models.ForeignKey(Empleado, on_delete = models.SET_NULL, null = True)
     producto = models.ForeignKey(Producto, on_delete = models.PROTECT)

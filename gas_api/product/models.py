@@ -3,9 +3,9 @@ from django.db import models
 class Producto(models.Model):
 
     TIPO_CHOICES = [
-        ('gas', 'Gas'),
-        ('tanque_estacionario', 'Tanque Estacionario'),
-        ('otro', 'Otro'),
+        ('1', 'Gas'),
+        ('2', 'Tanque Estacionario'),
+        ('3', 'Otro'),
     ]
 
     id = models.AutoField(primary_key=True)

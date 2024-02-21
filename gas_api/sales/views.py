@@ -11,5 +11,9 @@ class VentasViewSet(viewsets.ModelViewSet):
     """
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = serializers.VentasSerializer
     queryset = Ventas.objects.all()
+    serializer_class = serializers.CreateUpdateVentasSerializer
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return serializers.VentasSerializer
+        return serializers.CreateUpdateVentasSerializer
