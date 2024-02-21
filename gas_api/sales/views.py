@@ -22,13 +22,13 @@ class VentasViewSet(viewsets.ModelViewSet):
         return serializers.CreateUpdateVentasSerializer
 
 class VentasPorPeriodoDeTiempoAPI(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
         fecha_inicio = self.request.query_params.get('fecha_inicio')
         fecha_fin = self.request.query_params.get('fecha_fin')
-        print(f'Fecha de inicio: {fecha_inicio}')
-        print(f'Fecha de fin: {fecha_fin}')
+        # print(f'Fecha de inicio: {fecha_inicio}')
+        # print(f'Fecha de fin: {fecha_fin}')
         # Filtrar las ventas por las fechas proporcionadas
         ventas = Ventas.objects.filter(created_at__range=[fecha_inicio, fecha_fin])
         
