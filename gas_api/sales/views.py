@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Ventas
 from django.db.models import Q
-from rest_framework import viewsets, authentication, permissions
+from rest_framework import viewsets, authentication, permissions, status
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -30,6 +30,7 @@ class VentasPorPeriodoDeTiempoAPI(APIView):
         fecha_inicio = request.query_params.get('fecha_inicio')
         fecha_fin = request.query_params.get('fecha_fin')
         metodo_pago = request.query_params.get('metodo_pago')
+        nombre_cliente = request.query_params.get('nombre_cliente')
         
         # Inicializar una consulta base que devuelve todas las ventas
         query = Q()
@@ -41,9 +42,19 @@ class VentasPorPeriodoDeTiempoAPI(APIView):
         # Agregar filtro por método de pago si está presente
         if metodo_pago:
             query &= Q(metodo_pago=metodo_pago)
+
+        # Agregar filtro por nombre del cliente si está presente
+        if nombre_cliente:
+            # Realizar búsqueda insensible a mayúsculas/minúsculas
+            query &= Q(cliente__name__icontains=nombre_cliente)
         
         # Filtrar las ventas según la consulta construida
         ventas = Ventas.objects.filter(query)
+
+        # Comprobar si se encontraron registros
+        if not ventas.exists():
+            return Response({"message": "No se encontraron ventas"}, status=status.HTTP_404_NOT_FOUND)
+        
         
         # Serializar los datos filtrados
         serializer = serializers.VentasSerializer(ventas, many=True)
