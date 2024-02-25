@@ -40,3 +40,7 @@ class CreateUpdateVentasSerializer(serializers.ModelSerializer):
             'total_venta_producto',
             'metodo_pago'
         ]
+
+class VentaPesosProducto(serializers.Serializer):
+    total_pesos = serializers.DecimalField(max_digits=20, decimal_places=3)
+    total_producto = serializers.DecimalField(max_digits=20, decimal_places=3)

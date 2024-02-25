@@ -1,9 +1,11 @@
+from decimal import Decimal
+from .utils import get_range_dates
 from django.shortcuts import render
 from .models import Ventas
-from django.db.models import Q
+from django.db.models import Q, Sum
 from rest_framework import viewsets, authentication, permissions, status
 from rest_framework.views import APIView
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from . import serializers
 from drf_spectacular.utils import extend_schema
@@ -60,3 +62,40 @@ class VentasPorPeriodoDeTiempoAPI(APIView):
         serializer = serializers.VentasSerializer(ventas, many=True)
         
         return Response(serializer.data)
+    
+"""
+    END-POINTS PARA LAS ESTADISTICAS
+"""
+@extend_schema(tags=["Estadistics"])
+class TotalVentaPesosAPI(APIView):
+    """
+    API QUE DEVUELVE LA VENTA TOTAL EN PESOS DE LOS QUE VA EL MES
+    """
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        first_date, current_date = get_range_dates()
+        try:
+            data = Ventas.objects.filter(created_at__range=(first_date,current_date)).aggregate(
+                total_pesos=Sum('total_venta_pesos'),
+                total_producto=Sum('total_venta_producto')
+            )
+            
+            # Verificar si los valores son nulos y reemplazarlos con 0
+            total_pesos = data.get('total_pesos', Decimal(0))
+            total_producto = data.get('total_producto', Decimal(0))
+
+            # Crear un diccionario con los valores convertidos a Decimal
+            result = {
+                'total_pesos': total_pesos,
+                'total_producto': total_producto
+            }
+            serializer = serializers.VentaPesosProducto(result)
+            return Response(serializer.data)
+        except Exception as e:
+            raise APIException(detail=str(e))  # o cualquier otro manejo de error que desees
+
+
+
+
